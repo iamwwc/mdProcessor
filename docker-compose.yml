@@ -1,0 +1,87 @@
+version: "3"
+
+services:
+
+  # nginx需要配置相应的规则来将流量转发给ssrserver
+  ssr-server:
+    buid:
+      context: https://github.com/iamwwc/blog.git
+    networks:
+      - blog-net
+    
+    # export 要向内网导出端口
+    expose: 
+      - "3000"
+    restart: always
+
+    # build: ./dir
+    # image: webapp:tag
+    # https://docs.docker.com/compose/compose-file/#build
+    # 如果 container_name 不好使，可以试试上面的组合
+    container_name: ssrserver
+    restart: always
+  
+  # 这里要开放github webhook端口，映射到 host 
+  # redis 和 server-api放到这一个容器
+  backend-api:
+    build: https://github.com/iamwwc/mdProcessor.git
+    networks:
+      - blog-net
+    ports: 
+      # api-listen port
+      # 这个端口不能使用export，ssr 前端需要直接查query接口
+      - "5000:5000"
+
+      # github webhook
+      - "5001:5001"
+
+    volumes: 
+      - blog-source-volume:/root/blogdata/source
+    restart: always
+    container_name: backendAPI
+    restart: always
+  # 保证 backend处理完数据之后刷新mongodb
+  mongoDB:
+    image: mongo
+    restart: always
+    expose: 
+      - "27017"
+    networks:
+      - blog-net
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    container_name: mongoDB
+    restart: always
+  redis:
+    image: redis
+    restart: always
+    networks: 
+      - blog-net
+    expose:
+      - "6379"
+    container_name: redis
+
+
+  # 需要转发前端查询接口 /api/blog，
+  # 转发 /dist
+  # try file失败后需要将 redirect index.html
+  # 然后在前端界面给出404
+  nginx:
+    image: nginx
+    networks:
+      - blog-net
+    ports: 
+    # 宿主机：container端口
+      - "443:443"
+    container_name: nginx
+    volumes:
+      - blog-source-volume:/usr/share/nginx/html:ro
+    restart: always
+# 三个container全部放到这个网络之中
+networks:
+  blog-net:
+    driver: bridge
+
+volumes: 
+  blog-source-volume:

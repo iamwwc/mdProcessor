@@ -1,0 +1,56 @@
+{
+  "name": "post-api-server",
+  "version": "1.0.29",
+  "description": "store post into dababase",
+  "main": "./dist/server.js",
+  "scripts": {
+    "test": "cross-env mode=test mocha --require ts-node/register --exclude 'test/testdata/**' 'test/**/*.ts'",
+    "pub": "tsc && npm publish"
+  },
+  "types": "./dist/index.d.ts",
+  "keywords": [
+    "markdown"
+  ],
+  "author": "iamwwc",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bluebird": "^3.5.24",
+    "@types/chai": "^4.1.7",
+    "@types/koa": "^2.0.46",
+    "@types/koa-bodyparser": "^5.0.1",
+    "@types/koa-router": "^7.0.34",
+    "@types/marked": "^0.4.2",
+    "@types/mocha": "^5.2.5",
+    "@types/mongodb": "^3.1.14",
+    "@types/mongoose": "^5.3.1",
+    "@types/node": "^10.12.9",
+    "@types/redis": "^2.8.8",
+    "chai": "^4.2.0",
+    "cross-env": "^5.2.0",
+    "mocha": "^5.2.0",
+    "ts-loader": "^5.3.2",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.2.2",
+    "webpack": "^4.28.2",
+    "webpack-cli": "^3.1.2"
+  },
+  "dependencies": {
+    "@types/jsonwebtoken": "^8.3.0",
+    "axios": "^0.18.0",
+    "bluebird": "^3.5.3",
+    "gray-matter": "github:jonschlinkert/gray-matter#97eb641a0b42d80ce752973ab4a1bdf0c76d875c",
+    "hexo-util": "^0.6.3",
+    "highlight.js": "^9.13.1",
+    "jsonwebtoken": "^8.4.0",
+    "koa": "^2.6.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "log4js": "^3.0.6",
+    "marked": "^0.5.1",
+    "mongodb": "^3.1.10",
+    "redis": "^2.8.0",
+    "simple-git": "^1.107.0",
+    "strip-indent": "^2.0.0",
+    "wwc-blog-utils": "git+https://github.com/iamwwc/blog-utils.git"
+  }
+}

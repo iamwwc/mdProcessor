@@ -1,0 +1,10 @@
+node_modules/
+.idea/
+.vscode/
+test/
+.babelrc.js/
+.eslintignore
+.eslintrc.js
+.gitignore
+.npmignore
+.docker-compose.yml
